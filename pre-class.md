@@ -1,122 +1,106 @@
-# **Pre-Class Self-Study: Introduction to Data Analysis with Pandas**
+# **Pre-Class Study Guide: Fundamentals of Exploratory Data Analysis (EDA)**
 
-⏱️ Estimated Time: 45-60 minutes
+⏱️ Estimated Time: 35 Minutes
 
-📅 Complete Before: Class Session 1
+🎯 Goal: Understand the core concepts of investigating and cleaning data before we dive into the code during class.
 
-## **🎯 What You'll Learn Before Class**
+## **1\. What is EDA? (5 Minutes)**
 
-By completing this pre-class work, you will:
+**Exploratory Data Analysis (EDA)** is the first step in any data science project. Think of it as "interviewing" your data. Before you can build models or create charts, you must understand what you are working with.
 
-* **Understand** the difference between a Series and a DataFrame.  
-* **Identify** how Python represents missing data.  
-* **Recognize** the basic structure of the Pandas library.
+**Why do we do it?**
 
-## **💻 Part 1: Environment Setup (15-20 min)**
+* **To check assumptions:** Is the data what you think it is?  
+* **To spot anomalies:** Are there errors, missing values, or weird outliers?  
+* **To find patterns:** What are the basic trends?
 
-### **Prerequisites**
+**Analogy:** EDA is like a doctor's check-up. You check the vitals (heart rate, blood pressure) before diagnosing any specific illness.
 
-Ensure you have Python installed (Anaconda distribution recommended).
+## **2\. The "Health Check": Inspection & Summary (10 Minutes)**
 
-### **Installation Instructions**
+When you first load a file (like a CSV or Excel sheet), you need to answer basic questions:
 
-Step 1: Install Required Libraries
+### **A. How big is it?**
 
-Open your terminal or command prompt and run:
+We look at the **Dimensions** (Rows x Columns).
 
-```
-pip install pandas numpy matplotlib sqlalchemy
-```
+* *Pandas Tool:* .shape
 
-Step 2: Verify Installation
+### **B. What type of data is it?**
 
-Open a Jupyter Notebook and run this cell:
+* **Numerical:** Integers (1, 2, 100\) or Floats (1.5, 3.14).  
+* **Categorical/String:** Text data (e.g., "Red", "Blue", "New York").  
+* *Pandas Tool:* .info() shows data types and non-null counts.
 
-```
-import pandas as pd
-import numpy as np
-import sqlite3
+### **C. What does the distribution look like?**
 
-print(f"Pandas version: {pd.__version__}")
-print(f"NumPy version: {np.__version__}")
-print("✅ Ready for class!")
-```
+We use **Summary Statistics** to get a snapshot without looking at every row.
 
-Step 3: Organize Your Data
+* **Mean:** The average value.  
+* **Median:** The middle value.  
+* **Min/Max:** The range of the data.  
+* *Pandas Tool:* .describe() automatically calculates these for all numeric columns.
 
-Create a folder named data in your project directory and move the following files into it:
+## **3\. The "Cleanup": Handling Dirty Data (10 Minutes)**
 
-* ex1.csv through ex5.csv  
-* Resaleflatpricesbasedonregistrationdate.xlsx \- 2017.csv  
-* unit-1-4.db
+Real-world data is rarely clean. It often contains errors that will break your analysis if ignored.
 
-## **📚 Part 2: Course Introduction (10-15 min)**
+### **A. Missing Data (NaN)**
 
-### **What is Exploratory Data Analysis (EDA)?**
+Sometimes data wasn't collected, or a system error occurred. Pandas represents this as NaN (Not a Number).
 
-EDA is "detective work" for data. Before we build machine learning models or fancy dashboards, we must understand what we are looking at.
+* **Option 1: Drop.** If a row has too many missing values, we might just throw it away (dropna).  
+  * *Risk:* You lose data.  
+* **Option 2: Impute (Fill).** We fill the empty spot with a reasonable guess, like the average (mean) or the previous value (fillna).  
+  * *Risk:* You might introduce bias.
 
-Real-World Example:
+### **B. Duplicates**
 
-Imagine you are a real estate agent. You have a spreadsheet of 10,000 home sales.
+Sometimes the same record appears twice (e.g., a customer clicked "submit" twice).
 
-* **EDA** is figuring out: "Are there any homes sold for $0 (errors)?" or "What is the average price in Yishun?"  
-* **Data Cleaning** is fixing the row that says "3 Room Flat" where the price is missing.
+* **Why fix it?** It inflates your numbers (e.g., double-counting sales).  
+* **Solution:** Identify unique row combinations and remove the extras (drop\_duplicates).
 
-### **Why This Matters**
+### **C. Outliers**
 
-Data in the real world is **never** clean. 80% of a Data Scientist's job is cleaning and arranging data. This lesson gives you the tools to do that 80% efficiently.
+An outlier is a data point that differs significantly from other observations (e.g., a person aged 200).
 
-## **🧠 Part 3: Basic Concepts (20-25 min)**
+* **Is it an error?** (e.g., typo). If so, fix or remove it.  
+* **Is it real?** (e.g., a billionaire in an income dataset). If so, keep it, but analyze carefully.
 
-### **Concept 1: The DataFrame**
+## **4\. Refinement: Pattern Matching with Regex (5 Minutes)**
 
-Think of a **DataFrame** like a programmable Excel sheet.
+Sometimes clean-up isn't just about missing values. Sometimes the data itself is "messy" text (e.g., "Price: $500", "500 USD", or emails mixed with names).
 
-* It has **rows** (observations) and **columns** (variables).  
-* Unlike Excel, we manipulate it with code, making our work reproducible.
+* **Regular Expressions (Regex):** A special sequence of characters that acts as a search pattern. It helps you find, extract, or replace complex patterns in text strings.  
+* **Common Use Cases:**  
+  * **Validation:** Checking if an input looks like an email address (e.g., text@text.com).  
+  * **Extraction:** Pulling out just the digits from a messy string (e.g., turning "$500.00" into 500.00).  
+  * **Cleaning:** Removing special characters or unwanted whitespace.
 
-**Try It Yourself:**
+**Analogy:** Regex is like a "Find" command on steroids. Instead of searching for the exact word "cat", you can search for "any 3-letter word starting with 'c' and ending with 't'".
 
-```
-import pandas as pd
-data = {'Town': ['Bedok', 'Tampines', 'Yishun'],
-        'Price': [450000, 500000, 380000]}
-df = pd.DataFrame(data)
-print(df)
-```
+## **5\. Preparation Checklist (5 Minutes)**
 
-### **Concept 2: Missing Data (NaN)**
+Before class, please ensure you have the following ready:
 
-Real data has holes. In Python/Pandas, a missing number is often represented as NaN (Not a Number).
+1. **Environment:** A working installation of Python (Anaconda recommended) or access to Google Colab.  
+2. **Libraries:** Ensure pandas and numpy are installed (pip install pandas numpy).  
+3. **Mindset:** Be ready to look at "ugly" data and make decisions on how to fix it\!
 
-* You cannot do math with NaNs (mostly). 5 \+ NaN \= NaN.  
-* We have to decide: do we fill the hole, or throw away the row?
+## **🧠 Quick Self-Check Quiz**
 
-## **✅ Pre-Class Self-Check**
+Try to answer these without looking back at the text\!
 
-Before coming to class, make sure you can:
-
-* \[ \] Import pandas as pd without errors.  
-* \[ \] Load the ex1.csv file using pd.read\_csv('data/ex1.csv').  
-* \[ \] Explain what a CSV file is.
-
-## **🔜 What's Next?**
-
-In our **3-hour class session**, we will:
-
-1. **Ingest** messy data from text files and databases.  
-2. **Clean** a real Singapore HDB resale price dataset.  
-3. **Discover** which factors actually drive flat prices using statistics.
-
-**Bring to Class:**
-
-* ✅ Laptop with environment set up.  
-* ✅ The downloaded data files in a known folder.
+1. **Scenario:** You have a dataset of 1,000 students. The "Age" column has 50 missing values. Would you drop those 50 rows or fill them with the average age? Why?  
+2. **True or False:** The .describe() function gives you the same output for a column of text names as it does for a column of prices.  
+3. **Definition:** What is the difference between an integer and a float?  
+4. **Regex:** If you wanted to extract prices from text, what kind of pattern might you look for? (e.g., specific symbols or character types).
 
 
 
-### Foundation
+
+## **Reference**
 
 - [Beginner's Guide to Statistics](https://www.analyticsvidhya.com/blog/2021/08/a-beginners-guide-to-statistics-for-machine-learning/)
 - [Introduction to Regular Expressions in Python](https://developers.google.com/edu/python/regular-expressions)
