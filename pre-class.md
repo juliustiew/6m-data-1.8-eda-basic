@@ -4,6 +4,8 @@
 
 🎯 Goal: Understand the core concepts of investigating and cleaning data before we dive into the code during class.
 
+🎬 [[EDA with Pandas]](https://youtu.be/4-VoOWSFwOQ)
+
 ## **1\. What is EDA? (5 Minutes)**
 
 **Exploratory Data Analysis (EDA)** is the first step in any data science project. Think of it as "interviewing" your data. Before you can build models or create charts, you must understand what you are working with.
